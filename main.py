@@ -1,31 +1,21 @@
-# from fastapi import FastAPI
 
-# app= FastAPI()
-
-# @app.get("/")
-# def root():
-#     return {"message": "Hello World"}
-
-
-# @app.get("/items/")
-# def read_items():
-#     return [{"item_id": "Foo"}, {"item_id": "Bar"}]
-
+from re import A
 from fastapi import FastAPI
 import pypwned
-from demo.endpoint.schemas import DomainDetails, EmailDomain, EmailIn, Student, StudentOut, Email
-from demo.endpoint.presence import get_user, get_students
-from demo.endpoint.utils import send_email
+from pwned.endpoint.schemas import DomainDetails, EmailDomain, EmailIn, Student, StudentOut, Email
+from pwned.endpoint.presence import get_user, get_students
+from pwned.endpoint.utils import send_email
+from pwned.router import router as pwned_router
+from user_crud.router import router as user_router
+from pwned.route import router as presence_router
+
 app = FastAPI()
 your_hibp_key ='0a8f8f992cee4b9bb798a761db6fe950'
+pwny = pypwned.pwned(your_hibp_key)
+app.include_router(pwned_router, prefix='/pwned', tags=['pwned'])
+app.include_router(user_router, tags=['user'])
+app.include_router(presence_router, prefix='/presence', tags=['presence'])
 
-
-
-@app.get("/verif",tags=['pwned'] )
-def root():
-    # get the password from the request
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllDataClasses()
 
 @app.post("/verify/password")
 def verify_password(item: Email):
@@ -37,31 +27,3 @@ def verify_paste(item: Email):
     pwny = pypwned.pwned(your_hibp_key)
     return pwny.getAllBreachesForAccount(item.email)
 
-@app.get('/get-hacked-websites', tags=['pwned'])
-def getHackedWebsites():
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllBreaches()
-
-
-
-@app.post('/verify-email-password/specific-domain', tags=['pwned'])
-def verify_specific_domain(user:EmailDomain):
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllBreaches(user.email, user.domain)
-
-
-@app.post('/specific-domain-detail', tags=['pwned'])
-def specific_domain_detail(user:DomainDetails):
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllBreaches(domain=user.domain)
-
-@app.post('/add-student',response_model=StudentOut, tags=['presence'])
-def getUsers(student: Student):
-    return get_user(student)
-@app.get('/get-users-csv',tags=['presence'])
-def getUsersCsv():
-    return get_students()
-
-@app.post('/send-email',tags=['presence'])
-def sendEmail(item: EmailIn):
-    return send_email(item.email, item.name)

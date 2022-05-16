@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # command: python app/main.py
+    tty: true
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/code/:cached
+      - ./.docker/.ipython:/root/.ipython:cached
+    environment:
+      PYTHONPATH: .
+      PYTHONUNBUFFERED: 1

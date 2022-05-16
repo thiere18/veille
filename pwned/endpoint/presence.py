@@ -1,6 +1,6 @@
 import csv
 from io import BytesIO
-from demo.endpoint.schemas import Student
+from pwned.endpoint.schemas import Student
 from fastapi.responses import StreamingResponse
 # from pwned.endpoint.utils import send_simple_message
 def  create_csv(data):

@@ -2,7 +2,6 @@
 send email with mailgun
 '''
 from mailjet_rest import Client
-import os
 import base64
 
 def send_email(email: str,name: str):
