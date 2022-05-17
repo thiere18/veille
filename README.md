@@ -24,3 +24,6 @@ si vous avez docker et docker-compose installé vous pouvez juste faire
 docker-compose up --build
 ```
  Naviguer vers http://localhost:8000/docs pour voir la documentation
+
+ ### deploiement 
+ [demo](http://159.65.195.145/docs)
