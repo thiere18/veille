@@ -17,15 +17,6 @@ app.include_router(user_router, tags=['user'])
 app.include_router(presence_router, prefix='/presence', tags=['presence'])
 
 
-@app.post("/verify/password")
-def verify_password(item: Email):
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllBreachesForAccount(item.email)
-
-@app.post("/get-paste")
-def verify_paste(item: Email):
-    pwny = pypwned.pwned(your_hibp_key)
-    return pwny.getAllBreachesForAccount(item.email)
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info", reload=True)
