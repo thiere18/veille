@@ -38,5 +38,4 @@ def send_email(email: str,name: str):
 
     }
     result = mailjet.send.create(data=data)
-    print(result.status_code)
-    print(result.json())
+

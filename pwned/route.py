@@ -13,5 +13,6 @@ def getUsersCsv():
     return get_students()
 
 @router.post('/send-email',tags=['presence'])
-def sendEmail(item: EmailIn):
-    return send_email(item.email, item.name)
+async def sendEmail(item: EmailIn):
+   send= send_email(item.email, item.name)
+   return {'message':f'message envoye a l\'adresse {item.email}'}
