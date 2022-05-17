@@ -1,5 +1,4 @@
 
-from re import A
 from fastapi import FastAPI
 import pypwned
 from pwned.endpoint.schemas import DomainDetails, EmailDomain, EmailIn, Student, StudentOut, Email
